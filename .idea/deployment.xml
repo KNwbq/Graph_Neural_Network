@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="chengyu@222.201.144.245:22" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="chengyu@222.201.144.245:22">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/dev_data/chengyu/wbq/GNN" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

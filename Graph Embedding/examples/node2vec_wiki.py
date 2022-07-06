@@ -50,4 +50,4 @@ if __name__ == "__main__":
     embeddings=model.get_embeddings()
 
     evaluate_embeddings(embeddings)
-    plot_embeddings(embeddings)
+    # plot_embeddings(embeddings)
