@@ -21,6 +21,8 @@ class RandomWalker:
         self.p = p
         self.q = q
         self.use_rejection_sampling = use_rejection_sampling
+        self.alias_edges = None
+        self.alias_nodes = None
 
     def deepwalk_walk(self, walk_length, start_node):
 
@@ -65,7 +67,7 @@ class RandomWalker:
         """
         Reference:
         KnightKing: A Fast Distributed Graph Random Walk Engine
-        http://madsys.cs.tsinghua.edu.cn/publications/SOSP19-yang.pdf
+        https://madsys.cs.tsinghua.edu.cn/publications/SOSP19-yang.pdf
         """
 
         def rejection_sample(inv_p, inv_q, nbrs_num):
@@ -97,17 +99,17 @@ class RandomWalker:
                     prev_nbrs = set(G.neighbors(prev))
                     while True:
                         prob = random.random() * upper_bound
-                        if (prob + shatter >= upper_bound):
+                        if prob + shatter >= upper_bound:
                             next_node = prev
                             break
                         next_node = cur_nbrs[alias_sample(
                             alias_nodes[cur][0], alias_nodes[cur][1])]
-                        if (prob < lower_bound):
+                        if prob < lower_bound:
                             break
-                        if (prob < inv_p and next_node == prev):
+                        if prob < inv_p and next_node == prev:
                             break
                         _prob = 1.0 if next_node in prev_nbrs else inv_q
-                        if (prob < _prob):
+                        if prob < _prob:
                             break
                     walk.append(next_node)
             else:
@@ -182,8 +184,12 @@ class RandomWalker:
             norm_const = sum(unnormalized_probs)
             normalized_probs = [
                 float(u_prob) / norm_const for u_prob in unnormalized_probs]
+            # create_alias_table will return accept and alias, accept[i] return the prob of event i,
+            # alias[i] return the other event in the block i.
+            # alias table is used to negative sampling
             alias_nodes[node] = create_alias_table(normalized_probs)
 
+        # if not self.use_rejection_sampling, walker will sample the node using node2vec + alias sampling
         if not self.use_rejection_sampling:
             alias_edges = {}
 

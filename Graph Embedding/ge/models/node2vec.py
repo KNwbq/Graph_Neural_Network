@@ -33,10 +33,12 @@ class Node2Vec:
             graph, p=p, q=q, use_rejection_sampling=use_rejection_sampling)
 
         print("Preprocess transition probs...")
+        # self.alias_nodes, self.alias_edges
         self.walker.preprocess_transition_probs()
 
         self.sentences = self.walker.simulate_walks(
             num_walks=num_walks, walk_length=walk_length, workers=workers, verbose=1)
+        self.w2v_model = None
 
     def train(self, embed_size=128, window_size=5, workers=3, iter=5, **kwargs):
         kwargs["sentences"] = self.sentences

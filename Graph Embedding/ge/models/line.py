@@ -75,7 +75,7 @@ class LINE:
         :param order: 'first','second','all'
         """
         if order not in ['first', 'second', 'all']:
-            raise ValueError('mode must be fisrt,second,or all')
+            raise ValueError('mode must be first, second,or all')
 
         self.graph = graph
         self.idx2node, self.node2idx = preprocess_nxgraph(graph)
@@ -116,13 +116,10 @@ class LINE:
         node2idx = self.node2idx
 
         for edge in self.graph.edges():
-            node_degree[node2idx[edge[0]]
-            ] += self.graph[edge[0]][edge[1]].get('weight', 1.0)
+            node_degree[node2idx[edge[0]]] += self.graph[edge[0]][edge[1]].get('weight', 1.0)
 
-        total_sum = sum([math.pow(node_degree[i], power)
-                         for i in range(numNodes)])
-        norm_prob = [float(math.pow(node_degree[j], power)) /
-                     total_sum for j in range(numNodes)]
+        total_sum = sum([math.pow(node_degree[i], power) for i in range(numNodes)])
+        norm_prob = [float(math.pow(node_degree[j], power)) / total_sum for j in range(numNodes)]
 
         self.node_accept, self.node_alias = create_alias_table(norm_prob)
 
@@ -171,9 +168,9 @@ class LINE:
                         self.node_accept, self.node_alias))
 
             if self.order == 'all':
-                yield ([np.array(h), np.array(t)], [sign, sign])
+                yield [np.array(h), np.array(t)], [sign, sign]
             else:
-                yield ([np.array(h), np.array(t)], [sign])
+                yield [np.array(h), np.array(t)], [sign]
             mod += 1
             mod %= mod_size
             if mod == 0:
