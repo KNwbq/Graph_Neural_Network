@@ -29,6 +29,9 @@ class GraphConvolution(Module):
             self.bias.data.uniform_(-stdv, stdv)
 
     def forward(self, input, adj):
+        """
+        D^(-0.5) * (A + I) * D^(-0.5) * X * W
+        """
         support = torch.mm(input, self.weight)
         output = torch.spmm(adj, support)
         if self.bias is not None:
